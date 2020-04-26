@@ -7,6 +7,9 @@ The elements of Computer Systems（邦題：「コンピュータシステムの
 ## 6章
 * 使用言語：Python3.7.4（以降のプロジェクトも同じの予定）
 * binary形式の実行モジュールはpyinstallで作成。pyinstallはpipでinstall可能。実行モジュール作成は$ pyinstall XXX.py --onefile
+* binary形式の実行方法
+  * $ Assembler <.asm file>
+  *  カレントディレクトリに.hackファイルが作成される
 * Assembler.py設計
   * Parserクラス
     - self.asm ... .asmファイルのデスクリプタ
