@@ -1,0 +1,20 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/02/Inc16.hdl
+
+/**
+ * 16-bit zero:
+ * out = 1 if in = (0..00)b; 0 else
+ */
+
+CHIP IsZero16 {
+    IN in[16];
+    OUT out;
+
+    PARTS:
+    Or8Way(in=in[0..7], out=int1);
+    Or8Way(in=in[8..15], out=int2);
+    Or(a=int1, b=int2, out=int3);
+    Not(in=int3, out=out);
+}

@@ -1,0 +1,23 @@
+多ビットピンについて：
+
+・内部ピンに配列シンタックスは使えない
+・回路の出力は好きなように内部ピンに接続可能
+例：ALUの後半（自分の実装）
+    // Output modifier
+    Neg16(in=out1, sel=no, out=out2);　←outの反転
+    // out
+    And16(a=out2, b=true, out=out);　←out2をoutに出力するための（無駄な）回路
+    // zr
+    IsZero16(in=out2, out=zr);　←ゼロかどうかの判定。IsZero16()は自作回路
+    // ng
+    IsNeg16(in=out2, out=ng);　←negativeかどうかの判定。IsNeg16()は自作回路
+
+（よりシンプルな実装）
+    // Output modifier
+    Neg16(in=out1, sel=no, out=out, out[15]=ng, out[0..7]=outlow, out[8..15]=outhigh);　←outの部分配列を出力ngと内部ピンoutlow, outhighに接続
+    // zr
+    Or8Way(in=outlow, out=tmp1);
+    Or8Way(in=outhigh, out=tmp2);
+    Or(a=tmp1, b=tmp2, out=tmp3);
+    Not(in=tmp3, out=zr);
+

@@ -1,0 +1,10 @@
+source_code
+tutorials
+nand2tetris.zip
+projects
+tools
+build
+dist
+.idea
+__pycache__
+*.spec
