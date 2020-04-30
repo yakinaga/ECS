@@ -120,7 +120,7 @@ class CodeWriter():
         self.vm = filename
 
     def writeArithmetic(self, command):
-        out = ""
+        out = "// "+command+"/n"
         if command in ["add", "sub", "and", "or"]: # 2 operands
             # M[M[SP]-1]（yの値）をDレジスタに保存
             out += "@SP\n"
@@ -190,21 +190,73 @@ class CodeWriter():
         self.asm.write(out)
 
     def writePushPop(self, command, segment, index):
-        out = ""
+        out = "// "+command+" "+segment+" "+str(index)+"\n"
         if segment == "constant":
             # indexをDレジスタに読み込む
             out += "@"+str(index)+"\n"
             out += "D=A\n" # D = index
-            # スタックポインタの位置にDレジスタの値を書き込む
+            # スタックポインタの位置にDレジスタの値を書き込む。pushのみ（pop constantは存在しない）
             out += "@SP\n"
             out += "A=M\n" # A is stack pointer
             out += "M=D\n" # push index
             # スタックポインタを1増やす
             out += "@SP\n"
             out += "M=M+1\n"
+        elif segment in ["local", "argument", "this", "that", "pointer", "temp", "static"]:
+            # アドレス解決; 読み込みまたは書き込み先のRAMアドレスをAレジスタに格納
+            ## 該当するベースポインタの値をDに読み込む
+            if segment == "local":
+                out += "@LCL\n"
+                out += "D=M\n"
+            elif segment == "argument":
+                out += "@ARG\n"
+                out += "D=M\n"
+            elif segment == "this":
+                out += "@THIS\n"
+                out += "D=M\n"
+            elif segment == "that":
+                out += "@THAT\n"
+                out += "D=M\n"
+            elif segment == "pointer":
+                out += "@3\n"
+                out += "D=A\n"
+            elif segment == "temp":
+                out += "@5\n"
+                out += "D=A\n"
+            elif segment == "static":
+                out += "@16\n"
+                out += "D=A\n"
+            ## indexをAに読み込んでベースポインタとの和を求め、A, Dレジスタに保存。Aはpush用、Dはpop用
+            out += "@"+str(index)+"\n"
+            out += "AD=D+A\n"
+            # push or pop
+            if command == "push":
+                # pushする値を取得
+                out += "D=M\n"
+                # スタックトップに書き込む
+                out += "@SP\n"
+                out += "A=M\n"
+                out += "M=D\n"
+                # スタックポインタを更新
+                out += "@SP\n"
+                out += "M=M+1\n"
+            elif command == "pop":
+                # 書き込み先アドレスを汎用レジスタ(R13)に保存
+                out += "@13\n"
+                out += "M=D\n"
+                # スタックからデータをDレジスタに取得
+                out += "@SP\n"
+                out += "A=M-1\n"
+                out += "D=M\n"
+                # Dレジスタの値をメモリに書き込む
+                out += "@13\n"
+                out += "A=M\n"
+                out += "M=D\n"
+                # スタックポインタを更新
+                out += "@SP\n"
+                out += "M=M-1\n"
         else:
-            # NYI
-            pass
+            raise ValueError("Invalid memory segment.")
         self.asm.write(out)
 
     def close(self):
@@ -241,8 +293,7 @@ for vm in glob.glob(os.path.join(prog_dir, "*.vm")):
         elif cmd_type == C_PUSH:
             writer.writePushPop("push", psr.arg1(), psr.arg2())
         elif cmd_type == C_POP:
-            # NYI
-            pass
+            writer.writePushPop("pop", psr.arg1(), psr.arg2())
         else:
             # NYI
             pass
