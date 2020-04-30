@@ -41,5 +41,43 @@ The elements of Computer Systems（邦題：「コンピュータシステムの
       * L命令：何もしない
       * A or C命令なら出力ファイルにinstructionを書き込む
 
-## 7章
+## 7-8章
+* 使用言語：Python3.7.4
+* binary形式の実行モジュールはpyinstallで作成。pyinstallはpipでinstall可能。実行モジュール作成は$ pyinstall XXX.py --onefile
+* binary形式の実行方法
+  * $ VMtranslator <prog_dir>
+  * prog_dirは.vimファイル群が置かれているディレクトリ名
+  * prog_dir/下に.asmファイルが作成される
+* VMtranslator.py設計
+  * Parserクラス
+    - self.vm ... .vmファイルのデスクリプタ
+    - self.row ... 現在読み込んでいる行
+    - self.command ... 現在読み込んでいるコマンド
+    - __init__() ... アドリビュートを初期化
+    - hasMoreCommands() ... self.vmから1行読んでEOFならFalse. コメント削除&strip()してブランクにならなければTrue. ブランクなら次の行を読み込んで繰り返し。Trueの時は読み込んだ行をself.rowに格納
+     - advance() ... self.rowかのコメントを除去しstrip()　→self.commandに格納
+     - commandType(str) ... コマンド(str)の種類を返す
+     - arg1() ... コマンドの第1引数を返す。C_ARITHMETICの場合はコマンド自身を返す
+     - arg2() ... コマンドの第2引数を返す  
+  * CodeWriterクラス
+    - self.asm ... 出力ファイルのデスクリプタ
+    - self.vm ... 現在読み込まれている.vmファイル名
+    - self.label_id ... .asmのL_COMMANDに使うラベルの通し番号。開始は1
+    - __init__() ... アトリビュートの初期化
+    - _getLabel() ... self.label_idからユニークなラベル文字列を生成して返す。self.label_idをインクリメントする
+    - setFileName(str) ... self.vmを設定
+    - writeArithmetic(str) ... 9種類のarithmeticコマンドをHackアセンブリに変換して出力ファイルに書き込む
+    - writePushPop(str1, str2, int) ... push, popコマンドをHackアセンブリに変換して出力ファイルに書き込む
+    - R[13]-R[15]の領域は汎用レジスタとしてpopコマンドの変換で使用
+    - close() ... 出力ファイルをクローズ
+  * main
+    1. コマンド引数処理、エラーチェック
+    2. CodeWriterインスタンス生成
+    3. 入力ディレクトリ下の.vmファイルに対して順次処理
+      1. Parserインスタンス生成
+      2. コマンドタイプごとにVMコマンドをHackアセンブリに変換し.asmファイルに出力
+      
+## 9章
+
+
 
