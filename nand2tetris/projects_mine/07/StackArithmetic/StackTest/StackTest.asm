@@ -1,3 +1,4 @@
+// push constant 17
 @17
 D=A
 @SP
@@ -5,6 +6,7 @@ A=M
 M=D
 @SP
 M=M+1
+// push constant 17
 @17
 D=A
 @SP
@@ -12,29 +14,31 @@ A=M
 M=D
 @SP
 M=M+1
+// eq
 @SP
 A=M-1
 D=M
 A=A-1
 D=M-D
-@label_1
+@StackTest.gen.1
 D;JEQ
 @2
 D=A
 @SP
 A=M-D
 M=0
-@label_2
+@StackTest.gen.2
 0;JMP
-(label_1)
+(StackTest.gen.1)
 @2
 D=A
 @SP
 A=M-D
 M=-1
-(label_2)
+(StackTest.gen.2)
 @SP
 M=M-1
+// push constant 17
 @17
 D=A
 @SP
@@ -42,6 +46,7 @@ A=M
 M=D
 @SP
 M=M+1
+// push constant 16
 @16
 D=A
 @SP
@@ -49,29 +54,31 @@ A=M
 M=D
 @SP
 M=M+1
+// eq
 @SP
 A=M-1
 D=M
 A=A-1
 D=M-D
-@label_3
+@StackTest.gen.3
 D;JEQ
 @2
 D=A
 @SP
 A=M-D
 M=0
-@label_4
+@StackTest.gen.4
 0;JMP
-(label_3)
+(StackTest.gen.3)
 @2
 D=A
 @SP
 A=M-D
 M=-1
-(label_4)
+(StackTest.gen.4)
 @SP
 M=M-1
+// push constant 16
 @16
 D=A
 @SP
@@ -79,6 +86,7 @@ A=M
 M=D
 @SP
 M=M+1
+// push constant 17
 @17
 D=A
 @SP
@@ -86,29 +94,31 @@ A=M
 M=D
 @SP
 M=M+1
+// eq
 @SP
 A=M-1
 D=M
 A=A-1
 D=M-D
-@label_5
+@StackTest.gen.5
 D;JEQ
 @2
 D=A
 @SP
 A=M-D
 M=0
-@label_6
+@StackTest.gen.6
 0;JMP
-(label_5)
+(StackTest.gen.5)
 @2
 D=A
 @SP
 A=M-D
 M=-1
-(label_6)
+(StackTest.gen.6)
 @SP
 M=M-1
+// push constant 892
 @892
 D=A
 @SP
@@ -116,6 +126,7 @@ A=M
 M=D
 @SP
 M=M+1
+// push constant 891
 @891
 D=A
 @SP
@@ -123,29 +134,31 @@ A=M
 M=D
 @SP
 M=M+1
+// lt
 @SP
 A=M-1
 D=M
 A=A-1
 D=M-D
-@label_7
+@StackTest.gen.7
 D;JLT
 @2
 D=A
 @SP
 A=M-D
 M=0
-@label_8
+@StackTest.gen.8
 0;JMP
-(label_7)
+(StackTest.gen.7)
 @2
 D=A
 @SP
 A=M-D
 M=-1
-(label_8)
+(StackTest.gen.8)
 @SP
 M=M-1
+// push constant 891
 @891
 D=A
 @SP
@@ -153,6 +166,7 @@ A=M
 M=D
 @SP
 M=M+1
+// push constant 892
 @892
 D=A
 @SP
@@ -160,29 +174,31 @@ A=M
 M=D
 @SP
 M=M+1
+// lt
 @SP
 A=M-1
 D=M
 A=A-1
 D=M-D
-@label_9
+@StackTest.gen.9
 D;JLT
 @2
 D=A
 @SP
 A=M-D
 M=0
-@label_10
+@StackTest.gen.10
 0;JMP
-(label_9)
+(StackTest.gen.9)
 @2
 D=A
 @SP
 A=M-D
 M=-1
-(label_10)
+(StackTest.gen.10)
 @SP
 M=M-1
+// push constant 891
 @891
 D=A
 @SP
@@ -190,6 +206,7 @@ A=M
 M=D
 @SP
 M=M+1
+// push constant 891
 @891
 D=A
 @SP
@@ -197,29 +214,31 @@ A=M
 M=D
 @SP
 M=M+1
+// lt
 @SP
 A=M-1
 D=M
 A=A-1
 D=M-D
-@label_11
+@StackTest.gen.11
 D;JLT
 @2
 D=A
 @SP
 A=M-D
 M=0
-@label_12
+@StackTest.gen.12
 0;JMP
-(label_11)
+(StackTest.gen.11)
 @2
 D=A
 @SP
 A=M-D
 M=-1
-(label_12)
+(StackTest.gen.12)
 @SP
 M=M-1
+// push constant 32767
 @32767
 D=A
 @SP
@@ -227,6 +246,7 @@ A=M
 M=D
 @SP
 M=M+1
+// push constant 32766
 @32766
 D=A
 @SP
@@ -234,29 +254,31 @@ A=M
 M=D
 @SP
 M=M+1
+// gt
 @SP
 A=M-1
 D=M
 A=A-1
 D=M-D
-@label_13
+@StackTest.gen.13
 D;JGT
 @2
 D=A
 @SP
 A=M-D
 M=0
-@label_14
+@StackTest.gen.14
 0;JMP
-(label_13)
+(StackTest.gen.13)
 @2
 D=A
 @SP
 A=M-D
 M=-1
-(label_14)
+(StackTest.gen.14)
 @SP
 M=M-1
+// push constant 32766
 @32766
 D=A
 @SP
@@ -264,6 +286,7 @@ A=M
 M=D
 @SP
 M=M+1
+// push constant 32767
 @32767
 D=A
 @SP
@@ -271,29 +294,31 @@ A=M
 M=D
 @SP
 M=M+1
+// gt
 @SP
 A=M-1
 D=M
 A=A-1
 D=M-D
-@label_15
+@StackTest.gen.15
 D;JGT
 @2
 D=A
 @SP
 A=M-D
 M=0
-@label_16
+@StackTest.gen.16
 0;JMP
-(label_15)
+(StackTest.gen.15)
 @2
 D=A
 @SP
 A=M-D
 M=-1
-(label_16)
+(StackTest.gen.16)
 @SP
 M=M-1
+// push constant 32766
 @32766
 D=A
 @SP
@@ -301,6 +326,7 @@ A=M
 M=D
 @SP
 M=M+1
+// push constant 32766
 @32766
 D=A
 @SP
@@ -308,29 +334,31 @@ A=M
 M=D
 @SP
 M=M+1
+// gt
 @SP
 A=M-1
 D=M
 A=A-1
 D=M-D
-@label_17
+@StackTest.gen.17
 D;JGT
 @2
 D=A
 @SP
 A=M-D
 M=0
-@label_18
+@StackTest.gen.18
 0;JMP
-(label_17)
+(StackTest.gen.17)
 @2
 D=A
 @SP
 A=M-D
 M=-1
-(label_18)
+(StackTest.gen.18)
 @SP
 M=M-1
+// push constant 57
 @57
 D=A
 @SP
@@ -338,6 +366,7 @@ A=M
 M=D
 @SP
 M=M+1
+// push constant 31
 @31
 D=A
 @SP
@@ -345,6 +374,7 @@ A=M
 M=D
 @SP
 M=M+1
+// push constant 53
 @53
 D=A
 @SP
@@ -352,6 +382,7 @@ A=M
 M=D
 @SP
 M=M+1
+// add
 @SP
 A=M-1
 D=M
@@ -359,6 +390,7 @@ A=A-1
 M=D+M
 @SP
 M=M-1
+// push constant 112
 @112
 D=A
 @SP
@@ -366,6 +398,7 @@ A=M
 M=D
 @SP
 M=M+1
+// sub
 @SP
 A=M-1
 D=M
@@ -373,9 +406,11 @@ A=A-1
 M=M-D
 @SP
 M=M-1
+// neg
 @SP
 A=M-1
 M=-M
+// and
 @SP
 A=M-1
 D=M
@@ -383,6 +418,7 @@ A=A-1
 M=D&M
 @SP
 M=M-1
+// push constant 82
 @82
 D=A
 @SP
@@ -390,6 +426,7 @@ A=M
 M=D
 @SP
 M=M+1
+// or
 @SP
 A=M-1
 D=M
@@ -397,6 +434,7 @@ A=A-1
 M=D|M
 @SP
 M=M-1
+// not
 @SP
 A=M-1
 M=!M

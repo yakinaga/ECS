@@ -11,12 +11,12 @@ M=M+1
 D=A
 @0
 AD=D+A
-@13
+@R13
 M=D
 @SP
 A=M-1
 D=M
-@13
+@R13
 A=M
 M=D
 @SP
@@ -34,12 +34,12 @@ M=M+1
 D=A
 @1
 AD=D+A
-@13
+@R13
 M=D
 @SP
 A=M-1
 D=M
-@13
+@R13
 A=M
 M=D
 @SP
@@ -57,12 +57,12 @@ M=M+1
 D=M
 @2
 AD=D+A
-@13
+@R13
 M=D
 @SP
 A=M-1
 D=M
-@13
+@R13
 A=M
 M=D
 @SP
@@ -80,12 +80,12 @@ M=M+1
 D=M
 @6
 AD=D+A
-@13
+@R13
 M=D
 @SP
 A=M-1
 D=M
-@13
+@R13
 A=M
 M=D
 @SP
@@ -112,7 +112,8 @@ A=M
 M=D
 @SP
 M=M+1
-// add/n@SP
+// add
+@SP
 A=M-1
 D=M
 A=A-1
@@ -130,7 +131,8 @@ A=M
 M=D
 @SP
 M=M+1
-// sub/n@SP
+// sub
+@SP
 A=M-1
 D=M
 A=A-1
@@ -148,7 +150,8 @@ A=M
 M=D
 @SP
 M=M+1
-// add/n@SP
+// add
+@SP
 A=M-1
 D=M
 A=A-1

@@ -4,7 +4,7 @@ import glob
 import argparse
 
 """
-バーチャルマシン(VM)プログラムをHackアセンブリに変換する
+バーチャルマシン(VM)プログラムをHackアセンブリに変換する（#1: 算術演算とメモリアクセス）
 Usage: $ python VMtranslator.py <prog_dir>
 * prog_dirは.vmファイル群が置かれたディレクトリパス
 * 出力：prog_dirディレクトリ下にprog_dir.asmが生成される
@@ -32,6 +32,7 @@ CodeWriterクラス
 * setFileName(str) ... self.vmを設定
 * writeArithmetic(str) ... 9種類のarithmeticコマンドをHackアセンブリに変換して出力ファイルに書き込む
 * writePushPop(str1, str2, int) ... push, popコマンドをHackアセンブリに変換して出力ファイルに書き込む
+** R[13]-R[15]の領域は汎用レジスタとしてpopコマンドの変換で使用
 * close() ... 出力ファイルをクローズ
 """
 
@@ -109,18 +110,21 @@ class Parser():
 class CodeWriter():
     def __init__(self, outfile):
         self.asm = open(outfile, "w")
-        self.vm = ""
+        self.vm_name = ""
         self.label_id = 0
 
-    def _getLabel(self):
+    def _genLabel(self):
+        # 汎用のユニークラベルを返す
         self.label_id += 1
-        return "label_"+str(self.label_id)
+        return self.vm_name+".gen."+str(self.label_id)
 
     def setFileName(self, filename):
-        self.vm = filename
+        # .vmファイル名を設定し、汎用ラベルのインデックスをリセット
+        self.vm_name = os.path.basename(filename).replace(".vm", "")
+        self.label_id = 0
 
     def writeArithmetic(self, command):
-        out = "// "+command+"/n"
+        out = "// "+command+"\n"
         if command in ["add", "sub", "and", "or"]: # 2 operands
             # M[M[SP]-1]（yの値）をDレジスタに保存
             out += "@SP\n"
@@ -150,7 +154,7 @@ class CodeWriter():
             # x-yをDレジスタに保存
             out += "D=M-D\n"
             # 条件成立時のジャンプ先のユニークラベルを作成
-            label1 = self._getLabel()
+            label1 = self._genLabel()
             out += "@"+label1+"\n"
             if command == "eq":
                 out += "D;JEQ\n"
@@ -164,7 +168,7 @@ class CodeWriter():
             out += "@SP\n"
             out += "A=M-D\n" # A = address of x
             out += "M=0\n"
-            label2 = self._getLabel()
+            label2 = self._genLabel()
             out += "@"+label2+"\n"
             out += "0;JMP\n"
             out += "("+label1+")\n"
@@ -224,11 +228,14 @@ class CodeWriter():
                 out += "@5\n"
                 out += "D=A\n"
             elif segment == "static":
-                out += "@16\n"
-                out += "D=A\n"
-            ## indexをAに読み込んでベースポインタとの和を求め、A, Dレジスタに保存。Aはpush用、Dはpop用
-            out += "@"+str(index)+"\n"
-            out += "AD=D+A\n"
+                # static segemntの場合は標準マッピングに従ってXxx.indexシンボルを使用
+                out += "@"+self.vm_name+"."+str(index)+"\n"
+#                out += "@16\n"
+                out += "AD=A\n"
+            if segment != "static":
+                ## indexをAに読み込んでベースポインタとの和を求め、A, Dレジスタに保存。Aはpush用、Dはpop用
+                out += "@"+str(index)+"\n"
+                out += "AD=D+A\n"
             # push or pop
             if command == "push":
                 # pushする値を取得
@@ -242,14 +249,14 @@ class CodeWriter():
                 out += "M=M+1\n"
             elif command == "pop":
                 # 書き込み先アドレスを汎用レジスタ(R13)に保存
-                out += "@13\n"
+                out += "@R13\n"
                 out += "M=D\n"
                 # スタックからデータをDレジスタに取得
                 out += "@SP\n"
                 out += "A=M-1\n"
                 out += "D=M\n"
                 # Dレジスタの値をメモリに書き込む
-                out += "@13\n"
+                out += "@R13\n"
                 out += "A=M\n"
                 out += "M=D\n"
                 # スタックポインタを更新
@@ -285,6 +292,7 @@ writer = CodeWriter(os.path.join(prog_dir, asmfile))
 
 for vm in glob.glob(os.path.join(prog_dir, "*.vm")):
     psr = Parser(vm)
+    writer.setFileName(vm)
     while psr.hasMoreCommands():
         psr.advance()
         cmd_type = psr.commandType()
