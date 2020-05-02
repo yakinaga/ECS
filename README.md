@@ -68,6 +68,7 @@ The elements of Computer Systems（邦題：「コンピュータシステムの
     - setFileName(str) ... self.vmを設定
     - writeArithmetic(str) ... 9種類のarithmeticコマンドをHackアセンブリに変換して出力ファイルに書き込む
     - writePushPop(str1, str2, int) ... push, popコマンドをHackアセンブリに変換して出力ファイルに書き込む
+      - staticセグメントのアドレス（A命令のシンボル）を本書の記述通りにすると「ベースポインタ + index」というルールに合致しない。しかしシンボルのユニーク性を担保するには、こちら（本書に記述）の方が確実
     - R[13]-R[15]の領域は汎用レジスタとしてpopコマンドの変換で使用
     - close() ... 出力ファイルをクローズ
   * main
