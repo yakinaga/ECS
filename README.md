@@ -42,6 +42,10 @@ The elements of Computer Systems（邦題：「コンピュータシステムの
       * A or C命令なら出力ファイルにinstructionを書き込む
 
 ## 7-8章
+* ベースポインタの初期化：
+  - SP ... ブートストラップで256に初期化される
+  - LCL, ARG ... Sys.initのcall文が初期化になる（ARG=SP-5, LCL=SP）
+  - THIS, THAT ... ?
 * 使用言語：Python3.7.4
 * binary形式の実行モジュールはpyinstallで作成。pyinstallはpipでinstall可能。実行モジュール作成は$ pyinstall XXX.py --onefile
 * binary形式の実行方法
