@@ -63,17 +63,27 @@ The elements of Computer Systems（邦題：「コンピュータシステムの
     - self.asm ... 出力ファイルのデスクリプタ
     - self.vm ... 現在読み込まれている.vmファイル名
     - self.label_id ... .asmのL_COMMANDに使うラベルの通し番号。開始は1
+    - self.func_name ... 現在の関数名（初期値は"null"）
+    - self.ln ... ROMアドレス（コメントと擬コードを除いた行番号；0開始）。※デバッグ用途のみ
     - __init__() ... アトリビュートの初期化
     - _getLabel() ... self.label_idからユニークなラベル文字列を生成して返す。self.label_idをインクリメントする
+    - _outCommand(str) ... str型の引数にROMアドレスself.lnと改行コードをつけて返し、ROMアドレスをインクリメント
     - setFileName(str) ... self.vmを設定
+    - writeInit() ... ブートストラップコードを書き込む。SP=256に初期化し、Sys.initをcall（writeCall("Sys.init", 0)を実行）
     - writeArithmetic(str) ... 9種類のarithmeticコマンドをHackアセンブリに変換して出力ファイルに書き込む
     - writePushPop(str1, str2, int) ... push, popコマンドをHackアセンブリに変換して出力ファイルに書き込む
       - staticセグメントのアドレス（A命令のシンボル）を本書の記述通りにすると「ベースポインタ + index」というルールに合致しない。しかしシンボルのユニーク性を担保するには、こちら（本書に記述）の方が確実
+    - writeLabel(str) ... labelコマンドを変換して出力ファイルに書き込む
+    - writeGoto(str) ... gotoコマンドを変換して出力ファイルに書き込む
+    - writeIf(str) ... if-gotoコマンドを変換して出力ファイルに書き込む
+    - writeCall(str, int) ... callコマンドを変換して出力ファイルに書き込む
+    - writeReturn() ... returnコマンドを変換して出力ファイルに書き込む
+    - writeFunction(str, int) ... functionコマンドを変換して出力ファイルに書き込む
     - R[13]-R[15]の領域は汎用レジスタとしてpopコマンドの変換で使用
     - close() ... 出力ファイルをクローズ
   * main
     1. コマンド引数処理、エラーチェック
-    2. CodeWriterインスタンス生成
+    2. CodeWriterインスタンス生成、ブートストラップコード書き込み
     3. 入力ディレクトリ下の.vmファイルに対して順次処理
       1. Parserインスタンス生成
       2. コマンドタイプごとにVMコマンドをHackアセンブリに変換し.asmファイルに出力
