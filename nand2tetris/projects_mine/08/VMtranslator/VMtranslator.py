@@ -34,7 +34,7 @@ CodeWriterクラス
 * _getLabel() ... self.label_idからユニークなラベル文字列を生成して返す。self.label_idをインクリメントする
 * _outCommand(str) ... str型の引数にROMアドレスself.lnと改行コードをつけて返し、ROMアドレスをインクリメント
 * setFileName(str) ... self.vmを設定
-* writeInit() ... ブートストラップコードを書き込む。SP=256に初期化し、Sys.initをcall
+* writeInit() ... ブートストラップコードを書き込む。SP=256に初期化し、Sys.initをcall（writeCall("Sys.init", 0)を実行）
 * writeArithmetic(str) ... 9種類のarithmeticコマンドをHackアセンブリに変換して出力ファイルに書き込む
 * writePushPop(str1, str2, int) ... push, popコマンドをHackアセンブリに変換して出力ファイルに書き込む
 * writeLabel(str) ... labelコマンドを変換して出力ファイルに書き込む
