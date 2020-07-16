@@ -103,7 +103,8 @@ The elements of Computer Systems（邦題：「コンピュータシステムの
   * JackTokenizer()
   * CompilationEngine()
 * クラス設計
-  * JackAnalyzer()
+  * Tokenクラス作る？（トークンを連結配列で持つ、type, next, val）
+  * JackAnalyzer
     - __init__() ... インスタンス初期化
     - run(source) ...
       - Input: sourceはディレクトリまたはJackソースファイル名
@@ -113,7 +114,7 @@ The elements of Computer Systems（邦題：「コンピュータシステムの
         2. （JackTokenizerクラスのテスト用） トークンとそのタイプを取得し、.xmlファイルに出力する
         3. CompilationEngine()を初期化（以下ce）
         4. ce.compileClass()
-  * JackTokenizer()
+  * JackTokenizer
     - __init__(srcfile) ... 入力はソースファイル名。self.token_listにトークンを格納。読み取ったトークンはリストから削除され、最終的に空のリストになる
       1. ファイルを開いて内容を一括読み込み
       2. 読み込んだテキストデータの改行とコメントを空白で置き換える
@@ -127,7 +128,7 @@ The elements of Computer Systems（邦題：「コンピュータシステムの
       3. self.next_token = self.token_list[0]
       4. return self.current_token
     - 他の関数は自明
-  * CompilationEngine()
+  * CompilationEngine
     - __init__(tknzr) ... JackTokenizerインスタンスを入力で受け取り、selfのアトリビュートとして格納。テキストの仕様に無いが、これがないとCompilationEngineの中でトークンを取得できない
     - compile***()関数群ではself.tokenizerのadvance()およびcurrent_token, next_tokenを使ってトークンを取得
       - トークンの先読みが必要な場合はtknzr.next_tokenを参照する
