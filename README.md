@@ -99,11 +99,10 @@ The elements of Computer Systems（邦題：「コンピュータシステムの
 * 使用言語：Python3.7.4
 * 作成モジュール：JackAnalyzer.py
 * 実装クラス
-  * JackAnalyzer()
-  * JackTokenizer()
-  * CompilationEngine()
+  * JackAnalyzer
+  * JackTokenizer
+  * CompilationEngine
 * クラス設計
-  * Tokenクラス作る？（トークンを連結配列で持つ、type, next, val）
   * JackAnalyzer
     - __init__() ... インスタンス初期化
     - run(source) ...
@@ -111,23 +110,19 @@ The elements of Computer Systems（邦題：「コンピュータシステムの
       1. インプットからソースファイルを展開
       2. ソースファイルでループ
         1. JackTokenizer()インスタンス初期化。入力はソースファイル
-        2. （JackTokenizerクラスのテスト用） トークンとそのタイプを取得し、.xmlファイルに出力する
+        2. （JackTokenizerクラスのテスト用） トークンとそのタイプを取得し、.xmlファイルに出力する　←別関数として定義
         3. CompilationEngine()を初期化（以下ce）
         4. ce.compileClass()
   * JackTokenizer
-    - __init__(srcfile) ... 入力はソースファイル名。self.token_listにトークンを格納。読み取ったトークンはリストから削除され、最終的に空のリストになる
-      1. ファイルを開いて内容を一括読み込み
-      2. 読み込んだテキストデータの改行とコメントを空白で置き換える
-      3. symbolの両側に空白を挿入する（split()で分割できるようにするため）
-      4. split()で分解し、リストに格納→self.token_list
-      5. self.current_token = None; self.next_token = self.token_list[0]
+    - __init__(srcfile) ... 入力はソースファイル名
+      * 初期化と同時にトークナイズを実行してリストに格納。advance()関数で一つずつトークンがリストから削除され、最終的に空のリストになる
+      * 現在のトークンと次のトークンを持っておく
+      * トークンは正規表現によるパターンマッチングで検索（python公式ドキュメントの方式を真似した）
+      * トークンはnamedtupleで持つ。属性はtypeとvalue
     - hasMoreTokens() ... self.token_listの長さが0ならFalse
-    - advance() ...
-      1. self.current_token = self.token_list[0]
-      2. self.token_listの第0要素を削除
-      3. self.next_token = self.token_list[0]
-      4. return self.current_token
-    - 他の関数は自明
+    - advance() ... 現トークンと次のトークンを一つずつ進め、現トークンを返す。トークンリストの第0要素を削除（逆からpopする感じ）
+    - tokenType() ... 現トークンのtypeを返す
+    - keyword(), symbol(), identifier(), intVal(), stringVal() ... 現トークンのvalueを返す
   * CompilationEngine
     - __init__(tknzr) ... JackTokenizerインスタンスを入力で受け取り、selfのアトリビュートとして格納。テキストの仕様に無いが、これがないとCompilationEngineの中でトークンを取得できない
     - compile***()関数群ではself.tokenizerのadvance()およびcurrent_token, next_tokenを使ってトークンを取得
