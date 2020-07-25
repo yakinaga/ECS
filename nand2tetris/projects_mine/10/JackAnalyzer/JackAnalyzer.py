@@ -49,21 +49,21 @@ def punch_tokens_to_xml(tokenizer):
             if token.type == T_KEYWORD:
                 fout.write("<keyword> " + token.value + " </keyword>\n")
             elif token.type == T_SYMBOL:
-                if token.value == "<":
+                if tokenizer.symbol() == "<":
                     value = "&lt;"
-                elif token.value == ">":
+                elif tokenizer.symbol() == ">":
                     value = "&gt;"
-                elif token.value == "&":
+                elif tokenizer.symbol() == "&":
                     value = "&amp;"
                 else:
-                    value = token.value
+                    value = tokenizer.symbol()
                 fout.write("<symbol> " + value + " </symbol>\n")
             elif token.type == T_IDENTIFIER:
-                fout.write("<identifier> " + token.value + " </identifier>\n")
+                fout.write("<identifier> " + tokenizer.identifier() + " </identifier>\n")
             elif token.type == T_INT_CONST:
-                fout.write("<integerConstant> " + token.value + " </integerConstant>\n")
+                fout.write("<integerConstant> " + tokenizer.intVal() + " </integerConstant>\n")
             elif token.type == T_STR_CONST:
-                fout.write("<stringConstant> " + token.value + " </stringConstant>\n")
+                fout.write("<stringConstant> " + tokenizer.stringVal() + " </stringConstant>\n")
             else:
                 raise ValueError("Invalid token type.")
         fout.write("</tokens>\n")
@@ -139,7 +139,7 @@ class JackTokenizer():
         return self.current_token
 
     def tokenType(self):
-        return self.current_token.kind
+        return self.current_token.type
 
     def keyword(self):
         return self.current_token.value
@@ -151,7 +151,7 @@ class JackTokenizer():
         return self.current_token.value
 
     def intVal(self):
-        return int(self.current_token.value)
+        return self.current_token.value
 
     def stringVal(self):
         return self.current_token.value
