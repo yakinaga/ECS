@@ -127,5 +127,9 @@ The elements of Computer Systems（邦題：「コンピュータシステムの
     - __init__(tknzr) ... JackTokenizerインスタンスを入力で受け取り、selfのアトリビュートとして格納。テキストの仕様に無いが、これがないとCompilationEngineの中でトークンを取得できない
     - compile***()関数群ではself.tokenizerのadvance()およびcurrent_token, next_tokenを使ってトークンを取得
       - トークンの先読みが必要な場合はtknzr.next_tokenを参照する
+    - compileExpressionList(), compileParameterList()では、次のトークンが"("記号であればリストの終わりとみなす
+    - 非終端記号の開タグおよび閉タグは、内容が無くても出力する（referenceでそうなっているので）
+    - インデントは空白2つを単位とする（referenceとの比較を容易にするため）
+    
       
 
