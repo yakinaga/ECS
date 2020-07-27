@@ -45,7 +45,9 @@ Jack_kw_constants = ["true", "false", "null", "this"]
 # Function definitions
 #
 def punch_tokens_to_xml(tokenizer):
-    # Punch out tokens in xml format
+    #
+    # トークンをxml形式で出力する；JackTokenizerのテスト専用
+    #
     with open(tokenizer.source_file.replace(".jack", "T.xml"), "w") as fout:
         fout.write("<tokens>\n")
         while tokenizer.hasMoreTokens():
