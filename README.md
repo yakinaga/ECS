@@ -131,5 +131,40 @@ The elements of Computer Systems（邦題：「コンピュータシステムの
     - 非終端記号の開タグおよび閉タグは、内容が無くても出力する（referenceでそうなっているので）
     - インデントは空白2つを単位とする（referenceとの比較を容易にするため）
     
-      
 
+## 11章
+* コンパイラ作成#2
+* 使用言語：Python3.7.4
+* 作成モジュール：JackCompiler.py
+* 実装クラス
+  * JackCompiler
+  * JackTokenizer
+  * SymbolTable
+  * CompilationEngine
+  * VMWriter
+* クラス設計
+  * JackTokenizerは前回プロジェクトで実装済み
+  * JackCompilation
+    - __init__() ... 初期化
+    - run(source) ... 
+      - 入力はファイルもしくはディレクトリ
+      - ソースファイルでループ
+  * SymbolTable
+    - __init__ ... クラススコープのシンボルテーブルを初期化
+    - startSubroutine() ... サブルーチンスコープのテーブルを初期化
+    - define(name, type. kind) ... 新しいシンボルをシンボルテーブルに登録
+      - シンボルはnamedtupleで持つ
+      - シンボルテーブルはシンボル名をkeyとする辞書とする
+      - シンボルの実行インデックスはvarCount()関数を利用して決定
+      - 同じスコープ（サブルーチン or クラス）に同名のシンボルが登録済みの場合は何もしない
+    - varCount(kind) ... 指定されたkindのシンボルがいくつ登録されているか
+    - kindOf(name) ... 指定された名前のシンボルのkindを返す
+      - まずサブルーチンスコープのテーブルで探し、見つからなければクラスのテーブルで探す。以降の関数も同様
+    - typeOf(name), indexOf(name) ...
+      - クラスのテーブルでも見つからなければエラー停止
+  * CompilationEngine
+    - シンボルの登録処理を追加（identifierトークンに遭遇した時）
+    - __init__()の入力にSymbolTableインスタンスを追加
+    - シンボルの属性（type, kind）を読み取ったら内容を一時記録し、直後のidentifierトークン読み取り時にシンボルテーブルに登録する（登録処理は_expect()内で実行）
+    - methodの第0引数にthisを加える。シンボルのtype(クラス名）はクラス宣言時に取得して記録しておく
+    
